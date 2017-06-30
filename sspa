@@ -35,15 +35,15 @@ function dev_server() {
   cd public
   ret=`python -c 'import sys; print("%i" % (sys.hexversion<0x03000000))'`
   if [ $ret -eq 0 ]; then
-    exec python -m http.server 9292
+    exec python -m http.server 8080
   else 
-    exec python -m SimpleHTTPServer 9292
+    exec python -m SimpleHTTPServer 8080
   fi
 }
 
 function livereload_server() {
   cd public
-  exec livereloadx -s -p 9292 "$PWD"
+  exec livereloadx -s -p 8080 "$PWD"
 }
 
 function create_s3_bucket() {
