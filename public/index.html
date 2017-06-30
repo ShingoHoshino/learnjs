@@ -11,6 +11,7 @@
     <script src='/app.js'></script>
     <style type="text/css" media="all">
       body { margin-top: 30px; }
+      .templates { display: none; }
     </style>
   </head>
   <body>
@@ -20,7 +21,7 @@
           <div class='row'>
             <div class='one-half column'>
               <h3>Learn Javascript, one puzzle at a time.</h3>
-              <a class='button button-primary' href='#problem-1'>Start Now!</a>
+              <a class='button button-primary' href='#problem-2'>Start Now!</a>
             </div>
             <div class='one-half column'>
               <img src='/images/HeroImage.jpg'/>
@@ -28,6 +29,22 @@
           </div>
         </div>
       </div>
+
+      <div class='templates'>
+        <div class='problem-view'>
+          <h3 class='title'></h3>
+          <p data-name='description'></p>
+          <pre><code data-name='code'></code></pre>
+          <form>
+            <textarea class='u-fu7ll-width answer'></textarea>
+            <div>
+              <button class='button-primary check-btn'>Check Answer</button>
+              <p class='result'></p>
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
     <script type='text/javascript'>
       $(window).ready(learnjs.appOnReady);
