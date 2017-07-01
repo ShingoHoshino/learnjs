@@ -12,25 +12,63 @@
     <style type="text/css" media="all">
       body { margin-top: 30px; }
       .templates { display: none; }
+      /*リストのインライン表示*/
+      .inline-list {
+        margin-bottom: 0px; /* Skeleton reset */
+      }
+      .inline-list li {
+        display: inline;
+        margin: 0 20px 0 0;
+      }
+      /* ページ下方スクロール時にナビゲーションが表示されるようにする*/
+      .fixed-top {
+        position: fixed;
+        top: 0px;
+        z-index: 1024;
+      }
+      /* ユーザがナビゲーションを選択してしまうのを防ぐ*/
+      .no-select {
+        user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
+      }
+      /* ユーザがリンク上にマウスを置いたときだけ、スタイルを適用する*/
+      .hover-links a { text-decoration: none; }
+      .hover-links a:hover { text-decoration: underline; }
+      /* ツールバーの色、サイズ、パディング指定。画面の幅全体に表示*/
+      .nav-container {
+        padding-left: 40px;
+        background: #666;
+      }
+      .nav-container a { color: white; }
+
     </style>
   </head>
   <body>
     <div class='markup'>
+      <div class='nav-container no-select fixed-top u-full-width'>
+        <ul class='inline-list hover-links nav-list six columns'>
+          <li><a class='text-lg' href="#">LearnJS</a></li>
+          <li><a href="#problem-1">Start</a></li>
+        </ul>
+      </div>
+
       <div class='view-container container'>
+      </div>
+      <div class='templates'>
         <div class='landing-view'>
           <div class='row'>
             <div class='one-half column'>
               <h3>Learn Javascript, one puzzle at a time.</h3>
-              <a class='button button-primary' href='#problem-2'>Start Now!</a>
+              <a class='button button-primary' href='#problem-1'>Start Now!</a>
             </div>
             <div class='one-half column'>
               <img src='/images/HeroImage.jpg'/>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class='templates'>
         <div class='problem-view'>
           <h3 class='title'></h3>
           <p data-name='description'></p>
@@ -42,6 +80,14 @@
               <p class='result'></p>
             </div>
           </form>
+        </div>
+                
+        <li class='skip-btn'>
+          <a>Skip This Problem</a>
+        </li>
+
+        <div class='correct-flash'>
+          <span>Correct!</span> <a>Next Problem</a>
         </div>
       </div>
 

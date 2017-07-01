@@ -19,6 +19,43 @@ learnjs.applyObject = function(obj, elem) {
   }
 }
 
+learnjs.triggerEvent = function(name, args) {
+  $('.view-container>*').trigger(name, args);
+}
+
+// フェードアウトとフェードインの実行
+learnjs.flashElement = function(elem, content) {
+  elem.fadeOut('fast', function() {
+    elem.html(content);
+    elem.fadeIn();
+  });
+}
+
+// ランディング用のビュー関数
+learnjs.landingView = function() {
+  return learnjs.template('landing-view');
+}
+
+// テンプレートのクローンを生成する
+learnjs.template = function(name) {
+  return $('.templates .' + name).clone();
+}
+
+// 正解時のHTMLコンポーネント
+learnjs.buildCorrectFlash = function(problemNum) {
+  var correctFlash = learnjs.template('correct-flash');
+  var link = correctFlash.find('a');
+  if (problemNum < learnjs.problems.length) {
+    // 次の問題を表示する
+    link.attr('href', '#problem-' + (problemNum + 1));
+  } else {
+    // ランディングページに遷移
+    link.attr('href', '');
+    link.text('You are finished!');
+  }
+  return correctFlash;
+}
+
 learnjs.problemView = function(data) {
   var problemNumber = parseInt(data, 10);
   var view = $('.templates .problem-view').clone();
@@ -33,11 +70,22 @@ learnjs.problemView = function(data) {
 
   function checkAnswerClick() {
     if (checkAnswer()) {
-      resultFlash.text('Correct!');
+      // 次の問題を表示する
+      var flashContents = learnjs.buildCorrectFlash(problemNumber);
+      learnjs.flashElement(resultFlash, flashContents);
     } else {
-      resultFlash.text('Incorrect!');
+      learnjs.flashElement(resultFlash, 'Incorrect!');
     }
     return false;
+  }
+  
+  if (problemNumber < learnjs.problems.length) {
+    var buttonItem = learnjs.template('skip-btn');
+    buttonItem.find('a').attr('href', '#problem-' + (problemNumber + 1));
+    $('.nav-list').append(buttonItem);
+    view.bind('removingView', function() {
+      buttonItem.remove();
+    });
   }
 
   view.find('.check-btn').click(checkAnswerClick);
@@ -48,12 +96,15 @@ learnjs.problemView = function(data) {
 
 learnjs.showView = function(hash) {
   var routes = {
-    '#problem' : learnjs.problemView
+    '#problem' : learnjs.problemView,
+    '#': learnjs.landingView,
+    '': learnjs.landingView
   };
 
   var hashParts = hash.split('-');
   var viewFn = routes[hashParts[0]];
   if (viewFn) {
+    learnjs.triggerEvent('removingView', []);
     $('.view-container').empty().append(viewFn(hashParts[1]));
   }
 }
