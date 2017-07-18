@@ -1,0 +1,22 @@
+{
+    "Role": {
+        "Path": "/",
+        "RoleName": "learnjs_lambda_exec",
+        "RoleId": "AROAJ5L6TN4GWOI436CQ6",
+        "Arn": "arn:aws:iam::620757251302:role/learnjs_lambda_exec",
+        "CreateDate": "2017-07-11T04:32:37.863Z",
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        }
+    }
+}

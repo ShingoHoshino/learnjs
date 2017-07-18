@@ -1,7 +1,8 @@
 'use strict';
 
 var learnjs = {
-  poolId: 'us-east-1:5c926216-6a82-444a-800f-f3fa1a334f6c'
+  poolId: 'us-east-1:5c926216-6a82-444a-800f-f3fa1a334f6c',
+  popularAnswerUrl: 'https://947b3ijysb.execute-api.us-east-1.amazonaws.com/prod'
 };
 
 learnjs.identity = new $.Deferred();
@@ -60,6 +61,59 @@ learnjs.buildCorrectFlash = function(problemNum) {
   return correctFlash;
 }
 
+learnjs.sendAwsRequest = function(req, retry) {
+  var promise = new $.Deferred();
+  req.on('error', function(error) {
+    if (error.code === "CredentialsError") {
+      learnjs.identity.then(function(identity) {
+        return identity.refresh().then(function() {
+          return retry();
+        }, function() {
+          promise.reject(resp);
+        });
+      });
+    } else {
+      promise.reject(error);
+    }
+  });
+  req.on('success', function(resp) {
+    promise.resolve(resp.data);
+  });
+  req.send();
+  return promise;
+}
+
+
+learnjs.popularAnswers = function(problemId, view) {
+  return learnjs.identity.then(function() {
+
+    /***
+    console.log(AWS.config.credentials.accessKeyId);
+    console.log(AWS.config.credentials.secretAccessKey);
+    console.log(AWS.config.credentials.sessionToken);
+    ***/
+
+    var apigClient = new apigClientFactory.newClient({
+      accessKey: AWS.config.credentials.accessKeyId,
+      secretKey: AWS.config.credentials.secretAccessKey,
+      sessionToken: AWS.config.credentials.sessionToken,
+      region: 'us-east-1'
+    });
+    var params = JSON.stringify({problemNumber: problemId});
+    var param = {};
+    var body = {
+      problemNumber: problemId
+    };
+
+    return apigClient.popularAnswersPost(param, body, {}).then(function(result) {
+      var json = JSON.stringify(result.data);
+      console.log('Result', json)
+      var popanswer = view.find('.popanswer');
+      popanswer.html(json);
+    });
+  });
+}
+
 learnjs.fetchAnswer = function(problemId) {
   return learnjs.identity.then(function(identity) {
     var db = new AWS.DynamoDB.DocumentClient();
@@ -109,6 +163,8 @@ learnjs.problemView = function(data) {
       buttonItem.remove();
     });
   }
+
+  learnjs.popularAnswers(problemNumber, view);
 
   learnjs.fetchAnswer(problemNumber).then(function(data) {
     if (data.Item) {

@@ -7,10 +7,22 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
     <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+    <script src="https://www.promisejs.org/polyfills/promise-6.1.0.min.js"></script>
     <script src='https://apis.google.com/js/platform.js'></script>
     <meta name='google-signin-client_id' content='637818104804-em7vcct2tepdoisqvjcoamaoq96fmcqa.apps.googleusercontent.com' />
     <script src='/vendor.js'></script>
     <script src='/app.js'></script>
+    <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+    <script type="text/javascript" src="apigClient.js"></script>
     <style type="text/css" media="all">
       body { margin-top: 30px; }
       .templates { display: none; }
@@ -94,6 +106,7 @@
         <div class='problem-view'>
           <h3 class='title'></h3>
           <p data-name='description'></p>
+          <pre><code class='popanswer'></code></pre>
           <pre><code data-name='code'></code></pre>
           <form>
             <textarea class='u-fu7ll-width answer'></textarea>
